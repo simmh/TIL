@@ -1,4 +1,4 @@
-## 1. Data Type (자료형)
+## 1. Data Type (자료형) 0%
 ### 1.1 기본자료형 (Primitive Data Type)
 #### 1.1.1 Boolean
 #### 1.1.2 null
