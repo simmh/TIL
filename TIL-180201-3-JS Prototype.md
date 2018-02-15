@@ -280,8 +280,194 @@ foo 객체의 프로토타입 객체 Person.prototype 객체와 Person() 생성�
 
 ## 5. 프로토타입 객체의 확장
 
+프로토타입 객체도 일반객체 처럼 프로퍼티 추가/삭제 가능. 즉시 프로토타입 체인에 반영됨.
+
+```javascript
+//생성자 함수 Person은 프로토타입 객체 Person.prototype와 prototype 프로퍼티에 의해 바인딩되어 있다.
+function Person(name) {
+  this.name = name;
+}
+
+var foo = new Person('Lee');
+
+//Person.prototype 객체는 일반 객체와 같이 프로퍼티를 추가/삭제가 가능하다.
+// Person.prototype 객체에 메소드 sayHello를 추가하였다
+// sayHello 메소드는 프로토타입 체인에 반영된다
+Person.prototype.sayHello = function(){
+  console.log('Hi! my name is ' + this.name);
+};
+
+//생성자 함수 Person에 의해 생성된 모든 객체는 프로토타입 체인에 의해 부모객체인 Person.prototype의 메소드를 사용할 수 있게 되었다.
+foo.sayHello();
+```
+
+
+
+![extension of prototype](http://poiemaweb.com/img/extension_prototype.png)
+
+
+
 ## 6.기본자료형(Primitive data type)의 확장
+
+자바스크립트에서 기본자료형(숫자, 문자열, boolean, null, undefined)을 제외한 모든것은 객체이다.  그런데...
+
+```javascript
+//기본자료형인 문자열이 객체와 유사하게 동작.
+var str = 'test';
+console.log(typeof str);                 // string
+console.log(str.constructor === String); // true
+console.dir(str);
+
+var strObj = new String('test');
+console.log(typeof strObj);                 // object
+console.log(strObj.constructor === String); // true
+console.dir(strObj);
+
+console.log(str.toUpperCase());    // TEST
+console.log(strObj.toUpperCase()); // TEST
+```
+
+
+
+기본자료형 문자열과 String() 생성자 함수로 생성한 문자열 객체의 타입은 분명이 다르다. 
+본 자료형은 객체가 아니므로 프로퍼티나 메소드를 가질수 없다.
+하지만 **기본자료형으로 프로퍼티나 메소드를 호출할 때 기본자료형과 연관된 객체로 일시적으로 변환되어 프로토타입 객체를 공유하게 된다.**
+
+
+
+기본자료형은 객체가 아니므로 프로퍼티나 메소드를 직접 추가할 수 없다.
+
+하지만 String 객체의 프로토타입 객체 String.prototype에 메소드를 추가하면 기본자료형, 객체 모두 메소드를 사용할 수 있다.
+
+```javascript
+var str = 'test';
+
+// 기본 자료형에 메소드 직접 추가시 에러가 발생하지 않는다.
+str.myMethod = function () {
+  console.log('str.myMethod');
+};
+
+str.myMethod(); // Uncaught TypeError: str.myMethod is not a function
+
+```
+
+
+
+```javascript
+/* String객체의 프로토타입 String.prototype에 메소드 추가시,
+ 기본자료형, 객체 모두 메소드를 사용할 수 있다. */
+var str = 'test';
+
+String.prototype.myMethod = function () {
+  return 'myMethod';
+};
+
+console.log(str.myMethod());      // myMethod
+console.log('string'.myMethod()); // myMethod
+console.dir(String.prototype);
+
+
+```
+
+
+
+* 모든 객체는 프로토타입 체인에 의해 Object.prototype 객체의 메소드를 사용할 수 있었다.
+* Object.prototype 객체는 프로토타입 체인의 종점으로 모든 객체가 사용할 수 있는 메소드를 갖는다.
+
+
+
+* [Built-in object(내장 객체)](http://poiemaweb.com/js-built-in-object)의 [Global objects (Standard Built-in Objects)](http://poiemaweb.com/js-standard-built-in-objects#2-standard-built-in-objects-global-objects)인 String, Number, Array 객체 등이 가지고 있는 표준 메소드는 프로토타입 객체인 String.prototype, Number.prototype, Array.prototype 등에 정의되어 있다.
+* 이들 프로토타입 객체 또한 Object.prototype를 프로토타입 체인에 의해 자신의 프로토타입 객체로 연결한다.
+* 자바스크립트는 표준 내장 객체의 프로토타입 객체에 개발자가 정의한 메소드의 추가를 허용한다.
+
+![String constructor function prototype chaining](http://poiemaweb.com/img/string_constructor_function_prototype_chaining.png)
+
+
 
 ## 7. 프로토타입 객체의 변경
 
+* 객체를 생성할 때 프로토타입은 결정된다. 
+* 결정된 프로토타입 객체는 다른 임의의 객체로 변경할 수 있다. 
+* 이것은 부모 객체인 프로토타입을 동적으로 변경할 수 있다는 것을 의미한다. 
+* 이러한 특징을 활용하여 객체의 상속을 구현.
+
+
+
+
+**주의 점.** (어떨 때 쓰는지 매우 궁금)
+
+* 프로토타입 객체 변경 시점 이전에 생성된 객체
+  기존 프로토타입 객체를 [[Prototype]] 프로퍼티에 바인딩한다.
+* 프로토타입 객체 변경 시점 이후에 생성된 객체
+  변경된 프로토타입 객체를 [[Prototype]] 프로퍼티에 바인딩한다.
+
+
+
+
+```javascript
+function Person(name) {
+  this.name = name;
+}
+
+var foo = new Person('Lee');
+
+// 프로토타입 객체의 변경
+Person.prototype = { gender: 'male' };
+
+var bar = new Person('Kim');
+
+console.log(foo.gender); // undefined
+console.log(bar.gender); // 'male'
+
+console.log(foo.constructor); // ① Person(name)
+console.log(bar.constructor); // ② Object()
+```
+
+
+
+![changing prototype](http://poiemaweb.com/img/changing_prototype.png)
+
+
+
+① constructor 프로퍼티는 Person() 생성자 함수를 가리킨다.
+
+② 프로토타입 객체 변경 후, Person() 생성자 함수의 Prototype 프로퍼티가 가리키는 **프로토타입 객체를 일반 객체로 변경**하면서 Person.prototype.constructor 프로퍼티도 삭제되었다. 따라서 프로토타입 체인에 의해 bar.constructor의 값은 프로토타입 체이닝에 의해 Object.prototype.constructor 즉 Object() 생성자 함수가 된다. oh my g...
+
+
+
 ## 8.프로토타입 체인 동작 조건
+
+객체의 프로퍼티를 참조시, 해당 객체에 프로퍼티가 없을 때, 프로토타입 체인이 동작.
+객체의 프로퍼티에 값을 할당시엔 프로토타입 체인 동작 않는다.
+
+객체에 해당 프로퍼티 있으면, 값을 재할당. 
+객체에 해당 프로퍼티 없으면,  해당 객체에 프로퍼티 동적 추가 됨.
+
+
+
+```javascript
+this.name = name;
+}
+
+Person.prototype.gender = 'male'; // ①
+
+var foo = new Person('Lee');
+var bar = new Person('Kim');
+
+console.log(foo.gender); // ① 'male'
+console.log(bar.gender); // ① 'male'
+
+// 1. foo 객체에 gender 프로퍼티가 없으면 프로퍼티 동적 추가
+// 2. foo 객체에 gender 프로퍼티가 있으면 해당 프로퍼티에 값 할당
+foo.gender = 'female';   // ②
+
+console.log(foo.gender); // ② 'female'
+console.log(bar.gender); // ① 'male'
+```
+
+
+
+<foo 객체의 gender 프로퍼티에 값을 할당하면 `foo 객체`에 프로퍼티를 동적으로 추가>
+
+![condition of prototype chaining](http://poiemaweb.com/img/condition_prototype_chaining.png)
+
