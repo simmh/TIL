@@ -102,7 +102,7 @@ console.log(+NaN);    // NaN
 ## 4.3 Data type conversion
 단항 연산자 쓴다
 *1을 해도 된다.
-```
+```javascript
 var val = '123';
 console.log(typeof val + ': ' + val); // string: 123
 
@@ -157,6 +157,10 @@ var elem = document.getElementById('header');
 // 변수 elem의 값은 null 또는 HTMLElement를 상속받은 객체의 인스턴스
 if (elem == true) // false
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1NjAwMDgwMzRdfQ==
--->
+
+
+
+
+# # Reference
+
+http://poiemaweb.com/js-control-flow

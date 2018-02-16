@@ -482,3 +482,8 @@ console.log(park.name); //"TypeError: Cannot read property 'name' of undefined
 
 
 
+
+
+# Reference
+
+http://poiemaweb.com/js-this

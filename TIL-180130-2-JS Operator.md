@@ -189,9 +189,11 @@ console.log(me instanceof Person); // true
 
 
 
-## 7. !!
+## 7. !! 
 
 `!!`의 역할은 피연산자를 불린값으로 변환하는 것이다.
+
+느낌표  두개!!
 
 ```
 console.log(!!1);         // true
@@ -200,7 +202,25 @@ console.log(!!'string');  // true
 console.log(!!'');        // false
 console.log(!!null);      // false
 console.log(!!undefined); // false
+
 console.log(!!{});        // true
 console.log(!![]);        // true
 ```
 
+
+
+객체 존체 확인, 하지만 빈객체도 true
+
+```
+var obj;
+console.log(!!obj); // false
+
+obj = {};
+console.log(!!obj); // true
+```
+
+
+
+# # Reference
+
+http://poiemaweb.com/js-operator

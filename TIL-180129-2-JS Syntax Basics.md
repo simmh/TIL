@@ -157,6 +157,8 @@ console.log(!!obj); // false
 obj = {};
 console.log(!!obj); // true
 ```
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMjAxNzQxMDA3Nl19
--->
+
+
+# # Reference
+
+http://poiemaweb.com/js-syntax-basics

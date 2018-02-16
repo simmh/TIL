@@ -201,3 +201,6 @@ console.log(MYAPP.student.name);
 
 
 
+# Reference
+
+http://poiemaweb.com/js-scope

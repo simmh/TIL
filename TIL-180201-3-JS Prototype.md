@@ -471,3 +471,10 @@ console.log(bar.gender); // ① 'male'
 
 ![condition of prototype chaining](http://poiemaweb.com/img/condition_prototype_chaining.png)
 
+
+
+
+
+# # Reference
+
+http://poiemaweb.com/js-prototype

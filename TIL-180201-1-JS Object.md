@@ -330,5 +330,14 @@ console.log(a === b, a === c, b === c); // true true true
 
 
 
-
 ![object](http://poiemaweb.com/img/object.png)
+
+
+
+
+
+
+
+## # Reference
+
+http://poiemaweb.com/js-object

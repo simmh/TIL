@@ -92,9 +92,15 @@ Javascript Engine(Webkit)
 # 부모 디렉터리작업 디렉터리의 부모 디렉토리이다.
  ../
 ```
-#
-------
 
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTMzODU4MDA2MF19
--->
+
+
+
+
+
+
+
+
+# # Reference
+
+[poiemaweb.com/js-introduction](http://poiemaweb.com/js-introduction)
