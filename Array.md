@@ -147,7 +147,7 @@ var a = ['a', 'b', 'c'];
 var c = a.shift(); // a --> [ 'b', 'c' ] // c --> 'a'
 ```
 
-
+unshift?
 
 ### slice() 배열요소 복사
 
@@ -187,6 +187,14 @@ console.log(res);   // [ 'two', 'three' ] 제거 요소 배열 반환
 ```
 
 ```javascript
+//기존 배열에 요소 추가
+var items = ['one', 'two', 'three', 'four']; 
+var res = items.splice(1, 0,x); [1]뒤에 x 추가?
+```
+
+
+
+```javascript
 // 배열 중간에 새 배열 추가
 var items = ['one', 'four'];
 Array.prototype.splice.apply(items, [1, 0].concat(['two', 'three']));
@@ -198,7 +206,8 @@ Array.prototype.splice.apply(items, [1, 0].concat(['two', 'three']));
 // items.splice(1, 0, ...['two', 'three']); // ES6
 ```
 
-
+splice를 호출하고 싶다. 대상이 배열이다.
+apply 2번째 인자는 매개변수 리스트.
 
 
 
@@ -219,5 +228,113 @@ points.sort(); // [ 1, 10, 100, 25, 40, 5 ] 1로 시작, 2로 시작?
 
 
 
+```javascript
+// 숫자 배열 -- 암기 영역
+// 숫자 배열 오름차순 정렬
+// compareFunction의 반환값이 0보다 작은 경우, a를 우선한다.
+points.sort(function (a, b) { return a - b; });
+console.log(points); // [ 1, 5, 10, 25, 40, 100 ]
 
+// 숫자 배열 내림차순 정렬
+// compareFunction의 반환값이 0보다 큰 경우, b를 우선한다.
+points.sort(function (a, b) { return b - a; });
+console.log(points); // [ 100, 40, 25, 10, 5, 1 ]
+
+console.log(points[0]); // 1
+```
+
+
+
+### forEach() 
+
+배열 각 요소에 함수(로직)처리,  `함수 통과값 처리된 배열` 반환 ,  `원본 수정 시킬수도  ` 
+
+고차함수, break 못씀 syntexterro. for보다 성능 않좋음, IE9 이상
+
+```javascript
+var total = 0;
+var testArray = [1, 3, 5, 7, 9];
+
+
+// 원본 배열을 변경하려면 콜백 함수의 3번째 인자를 사용한다.
+testArray.forEach(function (item, index, array) { //array=this
+  array[index] = Math.pow(item, 2);  //전역 함수 부분
+});
+// [1, 2, 3].forEach
+```
+
+
+
+### map()
+
+요소마다 함수처리, `결과값들의 새 배열` 반환,  `원본 수정x ` 
+
+원본 배열수 만큼 처리된 배열 반환. 꼭 return 
+
+```javascript
+var numbers = [1, 4, 9];
+var roots = numbers.map(function (item) { // 요소마다 제곱근 뽑기
+  return Math.sqrt(item);  //return 없으면 빈배열[]
+});
+var roots = numbers.map(Math.sqrt); // 위에꺼 축약
+```
+
+
+
+
+
+### filter()
+
+순회, `true 통과한 요소값 새배열` 반환,  `원본 수정x ` 
+
+```javascript
+var result = [1, 2, 3, 4, 5].filter(function (item, index, array) {
+  console.log('[' + index + '] = ' + item);
+  return item % 2; // 홀수만을 필터링한다 (1은 true로 평가된다) //조건식
+}); // [1,3,4]
+```
+
+
+
+### reduce()
+
+```javascript
+//previousValue 에 순회한 요소 계속 더하는 예제
+var result = [1, 2, 3, 4, 5].reduce(function (previousValue, currentValue, currentIndex, array) {
+  console.log(previousValue + '+' + currentValue + '=' + (previousValue + currentValue));
+  return previousValue + currentValue; // 결과는 다음 콜백의 첫번째 인자로 전달된다
+});
+
+
+```
+
+
+
+### some()
+
+콜백함수의 테스트를 통과하는지 확인, boolean으로 반환
+
+
+
+### every() 모두 통과?
+
+모든 요소가 콜백함수의 테스트를 통과하는지, boolean으로 반환
+
+
+
+### find() 참인 첫 요소
+
+ES6, IE 안됨
+
+```javascript
+// 콜백함수를 실행하여 그 결과가 참인 첫번째 요소를 반환한다.
+var result = array.find(function (item) {
+  return item.id === 2;
+});
+
+// filter는 콜백함수의 실행 결과가 true인 배열 요소의 값만을 추출한 새로운 배열을 반환한다.
+result = array.filter(function (item) {
+  return item.id === 2;
+});
+```
 
