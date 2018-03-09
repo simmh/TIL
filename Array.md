@@ -166,6 +166,12 @@ var res4 = items.slice(-2); // [ 'b', 'c' ] 끝에서 2개
 var res5 = items.slice(); // res5 = items 모든 요소 반환 본사본 생성
 ```
 
+#### snippet
+
+```javascript
+var copy = origin.slice(); // 배열복사
+```
+
 
 
 ### splice() 배열 요소 제거
@@ -208,6 +214,8 @@ Array.prototype.splice.apply(items, [1, 0].concat(['two', 'three']));
 
 splice를 호출하고 싶다. 대상이 배열이다.
 apply 2번째 인자는 매개변수 리스트.
+
+str === str.split('').reverse().join('');
 
 
 
@@ -275,7 +283,6 @@ testArray.forEach(function (item, index, array) { //array=this
 var numbers = [1, 4, 9];
 var roots = numbers.map(function (item) { // 요소마다 제곱근 뽑기
   return Math.sqrt(item);  //return 없으면 빈배열[]
-});
 var roots = numbers.map(Math.sqrt); // 위에꺼 축약
 ```
 
@@ -337,4 +344,14 @@ result = array.filter(function (item) {
   return item.id === 2;
 });
 ```
+
+
+
+
+
+
+
+### mozilla array 
+
+[mozilla array]: https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array
 
