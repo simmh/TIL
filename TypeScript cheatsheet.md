@@ -205,11 +205,11 @@ console.log(bar.x); // Property 'x' is private and only accessible within class 
 
 
 
-#### readonly 키워드
+#### * readonly 키워드
 
-####  static 키워드
+#### * static 키워드
 
-#### 추상 클래스 (Abstract class)
+#### * 추상 클래스 (Abstract class) 
 
 
 
@@ -380,4 +380,21 @@ const myQueue = new Queue<{name: string, age: number}>();
 
 
 
-함수에도 제네릭을 사용
+함수에도 제네릭을 사용. 
+제네릭을 사용하면 하나의 타입만이 아닌 다양한 타입의 매개변수와 리턴값을 사용할 수 있다.
+
+```typescript
+function reverse<T>(items: T[]): T[] {
+  return items.reverse();
+}
+
+const arg = [{name: 'Lee'}, {name: 'Kim'}, {name: 'Park'}];
+
+// 인수에 의해 타입매개변수가 결정된다
+const reversed = reverse(arg); // reversed: {name: string}[]
+console.log(reversed);
+
+reversed.push({name: 100}); // Error
+console.log(reversed);
+```
+
