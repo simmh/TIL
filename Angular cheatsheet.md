@@ -61,6 +61,19 @@
 
 
 
+#### value 와 attr.value
+
+```
+<!-- 프로퍼티 바인딩 -->
+<input id="user" type="text" [value]="name">
+<!-- 어트리뷰트 바인딩 -->
+<input id="user" type="text" [attr.value]="name">
+```
+
+
+
+
+
 ### 어트리뷰트 바인딩
 
 ```html
@@ -92,12 +105,11 @@
 <div class="text-small color-red" [class.color-red]="isRed">text-small</div
 >
 
-<!-- 여러개의 클래스를 한번에 지정할 수 있다 -->
+<!-- 여러 클래스 한번에 지정 -->
 <div [class]="myClasses">text-large color-red</div>
 
 <!-- 클래스 바인딩은 기존 클래스 어트리뷰트보다 우선한다.
-따라서 기존 클래스 어트리뷰트는 클래스 바인딩에 의해 reset된다.
-클래스 바인딩의 위치는 관계없다. -->
+기존 클래스 어트리뷰트는 reset된다. 위치는 관계X -->
 <div class="text-small color-blue" [class]="myClasses">text-large color-red
 </div>
 ```
@@ -155,6 +167,8 @@ export class AppComponent {
 
 ### 양방향 데이터 바인딩
 
+#### (프로퍼티 + 이벤트 바인딩)
+
 ```html
 <element [(ngModel)]="property">...</element>
 ```
@@ -163,7 +177,7 @@ export class AppComponent {
 
   import { FormsModule } from '@angular/forms';
 
-```
+```html
 <!-- 동일 동작 -->
 <!--양방향 바인딩 -->
 <input type="text" [(ngModel)]="name">
@@ -172,7 +186,6 @@ export class AppComponent {
 <!--프로퍼티 + 이벤트 바인딩 -->
 <input type="text" [value]="name" (input)="name=$event.target.value">
     <p>name: {{ name }}</p>
-  `
 ```
 
 
@@ -181,7 +194,11 @@ export class AppComponent {
 
 ## 2 빌트인 디렉티브
 
+### 빌트인 어트리뷰트 디렉티브
+
 ### ngClass
+
+
 
 ### ngStyle
 
@@ -199,7 +216,7 @@ export class AppComponent {
 </ng-template>
 ```
 
-예제.
+예제. 1
 
 ```html
 <!-- ngIf에 의한 show/hide -->
@@ -210,6 +227,41 @@ export class AppComponent {
 
 <button (click)="isShow=!isShow">{{ isShow ? 'Hide' : 'Show' }}</button>
 ```
+
+예제. 2
+
+```html
+<style>
+	.text-small { font-size: 18px;}
+    .text-large { font-size: 36px;}
+    .color-blue { color: blue;}
+    .color-red { color: red;}
+</style>
+
+<!-- true면 추가 -->
+<div [class.text-large]="isLarge">text-large</div>
+
+<!-- false면 삭제 --> 
+<div class="text-small color-red" [class.color-red]="isRed">text-small</div>
+
+<!-- 클래스 여러개 지정, 기존클래스 reset, 위치 상관 X -->
+myClasses = 'text-large color-red';
+<div [class]="myClasses">text-large color-red</div>
+
+<div class="text-small color-blue" [class]="myClasses">text-large color-red</div>
+
+
+export class AppComponent {
+  isLarge = true;
+  isRed = false;
+  // 클래스 바인딩은 문자열을 바인딩한다.
+  myClasses = 'text-large color-red';
+}
+```
+
+
+
+
 
 
 
@@ -254,11 +306,58 @@ first, last, even, odd
 
 ### ngSwitch
 
+```html
+<element [ngSwitch]="expression">
+  <!-- switch 조건이 'case1'인 경우 DOM에 추가 -->
+  <element *ngSwitchCase="'case1'">...<element>
+  <!-- switch 조건이 'case2'인 경우 DOM에 추가 -->
+  <element *ngSwitchCase="'case2'">...<element>
+  <!-- switch 조건과 일치하는 ngSwitchCase가 없는 경우 DOM에 추가 -->
+  <element *ngSwitchDefault>...<element>
+</element>
+```
+
+원래 구문
+
+```html
+<element [ngSwitch]="expression">
+  <ng-template [ngSwitchCase]="'case1'">
+    <element>...</element>
+  </ng-template>
+  <ng-template [ngSwitchCase]="'case2'">
+    <element>...</element>
+  </ng-template>
+  <ng-template ngSwitchDefault>
+    <element>...</element>
+  </ng-template>
+</element>
+```
+
+예제
+
+```html
+<input type="text" [(ngModel)]="num" placeholder="숫자를 입력하세요">
+    <div [ngSwitch]="num">
+      <div *ngSwitchCase="'1'">One</div>
+      <div *ngSwitchCase="'2'">Two</div>
+      <div *ngSwitchCase="'3'">Three</div>
+      <div *ngSwitchDefault>This is Default</div>
+    </div>
+```
+
+
+
+
+
 
 
 ## 4 Template reference
 
-### variable & Safe navigation operator
+ variable & Safe navigation operator
+
+
+
+### [ # ] 템플릿 참조 변수(Template reference variable) 
 
 * DOM 요소에 대한 참조를 담고 있는 변수
 * 템플릿 내에서만 유효하며 컴포넌트
@@ -282,7 +381,7 @@ first, last, even, odd
 
 
 
-### 세이프 내비게이션 연산자
+###  [ ? ] 세이프 내비게이션 연산자
 
 ```html
 <!-- obj가 null 또는 undefined일 때 공백 -->
@@ -404,9 +503,13 @@ uikit 설치
 npm i uikit // 확인필요
 ```
 
-.angular-cli.json 수정
+* `.angular-cli.json` 수정
 
-```
+
+* js 추가시 순서중요 
+* 서버 재시작
+
+```typescript
 "styles":[
 	"../node_modules/uikit/dist/css/uikit.min.css",
      "styles.css"
