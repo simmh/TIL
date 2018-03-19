@@ -1,6 +1,38 @@
+# NPM
+
+```bash
+// package.json 생성
+npm init 
+// package.json  의존 패키지 설치
+npm install  --save 
+//npm 리스트
+npm list [--depth = 0] 
+// 전역 환경 설치 패키지
+npm link
+//package.json scripts 선언 명령 수행
+npm run
+```
+
+
+------------------------------------------
 # Angular CLI
 
  Angular CLI  <https://cli.angular.io/>
+
+```bash
+npm install -g @angular/cli
+npm install --save-dev @angular/cli@latest
+
+// 프로젝트 생성
+ng new {{ app/project name }}
+cd {{ app/project name }}
+webpack & run live server
+ng serve -o
+
+// 컴포넌트 생성
+ng generate component {{component-name}}
+ng g c home
+```
 
 
 
@@ -46,7 +78,9 @@
 <input type="text" value="{{ name }}">
 ```
 
+#### [innerHTML]
 
+[innerTEXT]
 
 ### 프로퍼티 바인딩
 
@@ -70,7 +104,11 @@
 <input id="user" type="text" [attr.value]="name">
 ```
 
+[checked] = true/false  
 
+프로퍼티는 돔 내부 객체에 true/flase 값 가짐
+
+checked 어트리뷰트는 {{}} 값으로 넣을땐 T/F 못함
 
 
 
@@ -442,6 +480,14 @@ export class User {
 }
 ```
 
+app.component.ts
+
+```typescript
+// app.component.ts
+import { User } from './models/user.model';
+...
+```
+
 
 
 #### 부모 → 자식 [데이타 바인딩] 
@@ -500,6 +546,7 @@ export class UserListComponent {
 uikit 설치
 
 ```
+npm install bootstrap@3.3.7
 npm i uikit // 확인필요
 ```
 
@@ -521,5 +568,21 @@ npm i uikit // 확인필요
  
 * js 추가시 순서중요 
 * 서버 재시작
+```
+
+
+
+
+
+### pipe
+
+
+
+```typescript
+ng g p todos-filter
+
+//html 수정
+ngFor  | todosFilter
+
 ```
 
